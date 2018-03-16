@@ -34,15 +34,14 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader(url);
 			// Create the UI. This will instantiate the controller object, too.
 			Parent root = loader.load();
-			// Now we can get the controller object from the FXMLloader.
+			// Now we can get the controller object from the FXMLoader.
 			// This is interesting -- we don't need to use a cast!
 			ClickController controller = loader.getController();
-			
-			// Dependency Injection:
-			// Set the Counter object we want the view to update.
-			
-			//TODO set a reference to Counter in the controller
 
+            // Dependency Injection:
+            // Set the Counter object we want the view to update.
+
+            controller.setCounter(counter);
 			// Build and show the scene
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
@@ -57,19 +56,15 @@ public class Main extends Application {
 		// Add an observer that displays the Counter value on console.
 		// Dependency Injection: 
 		// We set a reference to the counter using the constructor.
-		
-		//TODO Create a ConsoleView with dependency injection.
-		
-		//TODO Add ConsoleView as an observer of Counter
-		
-		
-		// Create another window that references the SAME counter. 
-		
-		//TODO: Complete the CounterView class.
-		//CounterView view = new CounterView(counter);
-		
-		//TODO Add CounterView as observer.
-		//TODO Show CounterView by calling its run() method
+
+        ConsoleView consoleView = new ConsoleView(counter);
+        counter.addObserver(consoleView);
+
+        // Create another window that references the SAME counter.
+        CounterView counterView = new CounterView(counter);
+        counter.addObserver(counterView);
+
+        counterView.run();
 	}
 	
 	public static void main(String[] args) {
